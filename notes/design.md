@@ -146,8 +146,7 @@ Type scale (px, desktop):
 ## References
 
 https://www.tonybatts.com/#home
-It had everything in one page and a navbar that moved to different sections of the page. ALso had cards that flipped to give more info on the project. (I like this. A project page probably works better though bu we will see)
-A lot of portfolios I see seem to have a big message saying Hi, their nae adn what they do, i think its some sort of template. dont know about having this yet.
-
+- It had everything in one page and a navbar that moved to different sections of the page. Also had cards that flipped to give more info on the project. (I like this. A project page probably works better though bu we will see)
+- A lot of portfolios I see seem to have a big message saying Hi, their nae adn what they do, i think its some sort of template. dont know about having this yet.
 
 Sketch: ![Pencil sketch of the portfolio](images/idea-sketch.jpeg)  
