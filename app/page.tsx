@@ -1,13 +1,34 @@
-// Temporary skeleton page — proves the deploy pipeline works.
-// Replaced by the real layout in the next step.
+import About from "@/components/about";
+import Contact from "@/components/contact";
+import Header from "@/components/header";
+import ProjectGrid from "@/components/projectgrid";
+import Resume from "@/components/resume";
+
+// All the text lives in lib/site.ts and content/projects
+
+const section_style = "mx-auto w-full max-w-[1100px] scroll-mt-16 px-4 py-12 md:py-16";
+
 export default function Home() {
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center gap-2 p-4">
-      <h1 className="text-4xl font-bold">Edidiong Ekong</h1>
-      <p className="opacity-70">
-        Computer engineer: embedded, hardware, and full-stack.
-      </p>
-      <p className="text-sm opacity-50">Site under construction.</p>
-    </main>
+    <>
+      <Header />
+      <main>
+        <section id="projects" className={section_style}>
+          <h2 className="text-xl font-semibold">Projects</h2>
+          <ProjectGrid />
+        </section>
+
+        <section id="about" className={section_style}>
+          <h2 className="text-xl font-semibold">About</h2>
+          <About />
+        </section>
+
+        <section id="resume" className={section_style}>
+          <h2 className="text-xl font-semibold">Resume</h2>
+          <Resume />
+        </section>
+      </main>
+      <Contact />
+    </>
   );
 }

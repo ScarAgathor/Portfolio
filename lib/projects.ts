@@ -5,15 +5,16 @@ import { remark } from "remark";
 import remarkGfm from "remark-gfm";
 import remarkHtml from "remark-html";
 
-// All project Markdown files live here, one file per project.
+// All project Markdown files live here, one file per project
 // The filename (without .md) becomes the URL slug: exoskeleton-ui.md -> /projects/exoskeleton-ui/
 const PROJECTS_DIR = path.join(process.cwd(), "content", "projects");
+const PUBLIC_DIR = path.join(process.cwd(), "public");
 
-// Same value next.config.ts uses. Empty locally and for a <username>.github.io repo.
+// Same value next.config.ts uses, empty locally
 export const basePath = process.env.PAGES_BASE_PATH || "";
 
-// Plain <img> tags and Markdown images don't get basePath added automatically
-// (next/link does). Run any "/images/..." path through this.
+// Plain <img> tags and Markdown images don't get basePath added automatically (next/link does)
+// Run any "/images/..." path through this
 export function withBasePath(src?: string) {
   if (!src) return src;
   return src.startsWith("/") && !src.startsWith("//") ? `${basePath}${src}` : src;
@@ -33,17 +34,24 @@ export type ProjectMeta = {
   cover?: string;       // e.g. "/images/projects/exoskeleton-ui/cover.webp"
   featured?: boolean;
   links: ProjectLink[];
+  has_page: boolean;    // true when the Markdown file has body text, so a project page gets built
 };
 
 export type Project = ProjectMeta & { html: string };
 
-// gray-matter turns unquoted YAML dates into Date objects; normalize to text.
+// gray-matter turns unquoted YAML dates into Date objects, normalize to text
 function asText(value: unknown): string {
   if (value instanceof Date) return value.toISOString().slice(0, 10);
   return value == null ? "" : String(value);
 }
 
-function toMeta(slug: string, data: Record<string, unknown>): ProjectMeta {
+function existingCover(value: unknown): string | undefined {
+  const cover = value ? asText(value) : "";
+  if (!cover) return undefined;
+  return fs.existsSync(path.join(PUBLIC_DIR, cover)) ? cover : undefined;
+}
+
+function toMeta(slug: string, data: Record<string, unknown>, body: string): ProjectMeta {
   const date = asText(data.date);
   return {
     slug,
@@ -54,13 +62,18 @@ function toMeta(slug: string, data: Record<string, unknown>): ProjectMeta {
     status: data.status ? asText(data.status) : undefined,
     role: data.role ? asText(data.role) : undefined,
     tags: Array.isArray(data.tags) ? data.tags.map(asText) : [],
-    cover: data.cover ? asText(data.cover) : undefined,
+    cover: existingCover(data.cover),
     featured: Boolean(data.featured),
     links: Array.isArray(data.links) ? (data.links as ProjectLink[]) : [],
+    has_page: body.trim().length > 0,
   };
 }
 
-export function getProjectSlugs(): string[] {
+function readProject(slug: string) {
+  return matter(fs.readFileSync(path.join(PROJECTS_DIR, `${slug}.md`), "utf8"));
+}
+
+function allSlugs(): string[] {
   if (!fs.existsSync(PROJECTS_DIR)) return [];
   return fs
     .readdirSync(PROJECTS_DIR)
@@ -68,28 +81,37 @@ export function getProjectSlugs(): string[] {
     .map((file) => file.replace(/\.md$/, ""));
 }
 
-// Frontmatter only, for the project grid. Newest first.
-export function getAllProjects(): ProjectMeta[] {
-  return getProjectSlugs()
-    .map((slug) => {
-      const raw = fs.readFileSync(path.join(PROJECTS_DIR, `${slug}.md`), "utf8");
-      return toMeta(slug, matter(raw).data);
-    })
-    .sort((a, b) => b.sortDate.localeCompare(a.sortDate));
+// Only projects with body text get their own page
+export function getProjectSlugs(): string[] {
+  return allSlugs().filter((slug) => readProject(slug).content.trim().length > 0);
 }
 
-// Frontmatter + rendered HTML body, for a single project page.
+// Frontmatter only, for the project grid
+// Featured projects first, then newest first
+export function getAllProjects(): ProjectMeta[] {
+  return allSlugs()
+    .map((slug) => {
+      const { data, content } = readProject(slug);
+      return toMeta(slug, data, content);
+    })
+    .sort(
+      (a, b) =>
+        Number(b.featured) - Number(a.featured) || b.sortDate.localeCompare(a.sortDate),
+    );
+}
+
+// Frontmatter plus rendered HTML body, for a single project page
 export async function getProject(slug: string): Promise<Project | null> {
   const file = path.join(PROJECTS_DIR, `${slug}.md`);
   if (!fs.existsSync(file)) return null;
 
-  const { data, content } = matter(fs.readFileSync(file, "utf8"));
+  const { data, content } = readProject(slug);
   const processed = await remark().use(remarkGfm).use(remarkHtml).process(content);
 
-  // Prefix root-relative image/link paths in the Markdown body with basePath.
+  // Prefix root-relative image and link paths in the Markdown body with basePath
   const html = processed
     .toString()
     .replace(/(src|href)="\/(?!\/)/g, `$1="${basePath}/`);
 
-  return { ...toMeta(slug, data), html };
+  return { ...toMeta(slug, data, content), html };
 }
