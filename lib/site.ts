@@ -3,6 +3,7 @@
 
 export const site = {
   name: "Edidiong Ekong",
+  site_url: "https://scaragathor.github.io/Portfolio/",
   pitch: "Computer engineer: embedded, hardware, and full-stack.",
   github_url: "https://github.com/ScarAgathor",
   linkedin_url: "https://www.linkedin.com/in/TODO",

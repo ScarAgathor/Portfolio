@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
+import { site } from "@/lib/site";
 import "./globals.css";
 
 const inter = Inter({
@@ -12,9 +13,24 @@ const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
 });
 
+// Title, description, and link previews for when the URL is shared
+// Project pages override the title and description with their own
 export const metadata: Metadata = {
-  title: "Edidiong Ekong",
-  description: "Computer engineer: embedded, hardware, and full-stack.",
+  metadataBase: new URL(site.site_url),
+  title: site.name,
+  description: site.pitch,
+  openGraph: {
+    title: site.name,
+    description: site.pitch,
+    url: site.site_url,
+    siteName: site.name,
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: site.name,
+    description: site.pitch,
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

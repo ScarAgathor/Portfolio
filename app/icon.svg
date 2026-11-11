@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <style>
+    .tile { fill: #0e7c66; }
+    .mark { fill: #fafaf9; }
+    @media (prefers-color-scheme: dark) {
+      .tile { fill: #34d3a8; }
+      .mark { fill: #0f1115; }
+    }
+  </style>
+  <rect class="tile" width="64" height="64" rx="14" />
+  <text class="mark" x="32" y="43" text-anchor="middle"
+        font-family="ui-monospace, Menlo, Consolas, monospace"
+        font-size="28" font-weight="700">EE</text>
+</svg>
