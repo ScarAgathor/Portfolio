@@ -5,7 +5,7 @@ date: "Fall 2026 – Spring 2027"
 sortDate: "2026-10-31"
 status: "In progress"
 role: "UI Engineer · Senior capstone"
-tags: ["PySide6", "BLE", "UART", "STM32", "ESP32-C3", "Zephyr", "Python", "CAN"]
+tags: ["STM32", "ESP32-C3", "UART", "Zephyr", "PySide6", "Qt", "Python", "ESP-IDF"]
 cover: "/images/projects/exoskeleton-ui/cover.webp"
 featured: true
 links: []
@@ -19,14 +19,15 @@ links: []
 Researchers at UTSA's Intelligent Systems and Bionics Engineering Lab (ISABEL)
 use a lower-limb exoskeleton based on the OpenExo design, which assists the hip
 and ankle during level-ground walking. Our senior capstone team, ISABEL ECExo,
-is building a new controller for it: a custom PCB that runs the motors and
+is building a new controller for it using a custom PCB that runs the motors and
 reports what the system is doing.
 
 A controller like this is only usable if the person running a session can see
-its state at a glance and stop it instantly. Is the battery healthy? Are the
+its state continuously and stop it instantly. Is the battery healthy? Are the
 sensors reading sensibly? Has a joint thrown an error? Without a clear operator
 view, problems show up as a device that "just stopped working."
-`TODO: one sentence on what operators currently use, if anything.`
+
+Currently researchers in the lab judge the physical state exoskeleton by eye without being able to see detailed acocunts of errors, motor speed and angle.
 
 ## My role
 
@@ -36,12 +37,16 @@ controller and the operator:
 - **The communication protocol.** I'm writing the comm module on the STM32
   side, a framed packet protocol over UART with a checksum, and a defined
   interface where it hands off to my teammates' control code.
+- **The wireless communication.** I am writing the wireless communication link between 
+  the GUI and the STM32 that lives on an ESP32-C3 using Bluetooth Low Energy.
 - **The operator GUI.** A desktop application that shows real-time power,
   sensor, and joint data, error flags, and diagnostic results, and logs every
   session.
 
 Teammates own the control loop and CAN motor control, the PCB design, and power
-delivery. `TODO: add anything else you contributed, like the V&V test plan.`
+delivery. 
+
+I also contributed to developing our Verification and Validation Test Plan, decsion matrix and overall design package.
 
 ## Tech
 
@@ -51,10 +56,10 @@ The controller board uses two microcontrollers with separate jobs:
   using three sensors.
 - **ESP32-C3** acts as a Bluetooth Low Energy bridge. It receives packets from
   the STM32 over UART and forwards them to the laptop.
-- **24 V battery** powers the controller, sensors, and motors.
 
 The design started as a single STM32WB55 handling both control and Bluetooth.
-`TODO: one sentence on why the team moved to two MCUs.`
+We decided it would be easier to have the STM32 dedicate more processing power to 
+ensuring the control loop executes timely. Th ESP32 was already poised to be in a good position to handling wirless communication, so we then settled on STM32G474 and the ESP32-C3
 
 Data flows both ways. Telemetry goes up from the STM32 to the GUI, and the GUI
 sends back only three commands: start, stop, and emergency stop. Emergency stop
@@ -64,23 +69,15 @@ the operator always has a fast way out.
 The GUI is written in **Python with PySide6** and runs on a Windows laptop.
 Session logging runs continuously on the GUI side.
 
-`TODO: add a block diagram: Sensors → STM32G474 (Zephyr) → CAN → Motors, and
-STM32G474 → UART → ESP32-C3 → BLE → PySide6 GUI.`
-
-<!-- ![System block diagram](/images/projects/exoskeleton-ui/block-diagram.webp) -->
-
 ## Photos
 
-`TODO: add 2–4 images, such as the block diagram, your Figma GUI sketch, a PCB
-render, or the exoskeleton itself.`
+![System Block Diagram](/images/projects/exoskeleton-ui/block-diagram.png)
+*Highlevel Block diagram of the communication system.*
 
-<!--
-![Operator GUI sketch](/images/projects/exoskeleton-ui/gui-sketch.webp)
+![Operator GUI sketch](/images/projects/exoskeleton-ui/gui-sketch.png)
 *Early Figma sketch of the operator dashboard.*
 
-![Controller PCB](/images/projects/exoskeleton-ui/pcb.webp)
-*Custom controller board with the STM32G474 and ESP32-C3.*
--->
+
 
 ## Status and next steps
 
@@ -88,7 +85,7 @@ This is a two-semester senior capstone, currently in the design phase. So far:
 
 - Finalized the two-MCU architecture with the team
 - Sketched the operator GUI layout in Figma
-- `TODO: anything else that's done, like the packet format or BLE testing`
+- Finalizng the packet format
 
 Next:
 

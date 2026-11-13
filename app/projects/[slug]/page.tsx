@@ -1,4 +1,5 @@
 // Full project page, one per Markdown file with body text in content/projects
+// Plain <img> on purpose since GitHub Pages has no image optimizer
 
 import type { Metadata } from "next";
 import Link from "next/link";
@@ -33,8 +34,8 @@ export default async function ProjectPage({ params }: Props) {
 
   return (
     <main className="mx-auto w-full max-w-[1100px] px-4 py-12 md:py-16">
-      <Link href="/#projects" className={back_link_style}>
-        ← Back to projects
+      <Link href="/projects/" className={back_link_style}>
+        ← All projects
       </Link>
 
       {project.cover && (
@@ -51,6 +52,7 @@ export default async function ProjectPage({ params }: Props) {
         <p className="mt-2 text-muted">{project.summary}</p>
 
         <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-1 font-mono text-sm text-muted">
+          {project.category && <span>{project.category}</span>}
           {project.role && <span>{project.role}</span>}
           {project.date && <span>{project.date}</span>}
           {project.status && (
@@ -93,8 +95,8 @@ export default async function ProjectPage({ params }: Props) {
       />
 
       <div className="mt-12 border-t border-border pt-6">
-        <Link href="/#projects" className={back_link_style}>
-          ← Back to projects
+        <Link href="/projects/" className={back_link_style}>
+          ← All projects
         </Link>
       </div>
     </main>

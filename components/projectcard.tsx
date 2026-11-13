@@ -1,10 +1,9 @@
-// One card in the project grid
+// One card in the home page project grid
+// Plain <img> on purpose since GitHub Pages has no image optimizer
 
 import Link from "next/link";
 import type { ProjectMeta } from "@/lib/projects";
-import { withBasePath } from "@/lib/projects";
-
-// Links to the project page if it has one, otherwise to its first external link, otherwise not clickable
+import { projectHref, withBasePath } from "@/lib/projects";
 
 const max_card_tags = 4;
 
@@ -59,32 +58,27 @@ export default function ProjectCard({ project }: { project: ProjectMeta }) {
   const card_style =
     "group flex h-full flex-col overflow-hidden rounded-xl border border-border bg-surface transition-colors";
   const clickable_style = `${card_style} hover:border-accent focus-visible:border-accent`;
-  const external_link = project.links[0];
+  const target = projectHref(project);
 
-  if (project.has_page) {
+  if (!target) {
     return (
-      <Link href={`/projects/${project.slug}/`} className={clickable_style}>
+      <div className={card_style}>
         <CardBody project={project} />
-      </Link>
+      </div>
     );
   }
 
-  if (external_link) {
+  if (target.external) {
     return (
-      <a
-        href={external_link.href}
-        target="_blank"
-        rel="noopener noreferrer"
-        className={clickable_style}
-      >
+      <a href={target.href} target="_blank" rel="noopener noreferrer" className={clickable_style}>
         <CardBody project={project} />
       </a>
     );
   }
 
   return (
-    <div className={card_style}>
+    <Link href={target.href} className={clickable_style}>
       <CardBody project={project} />
-    </div>
+    </Link>
   );
 }

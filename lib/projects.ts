@@ -10,6 +10,9 @@ import remarkHtml from "remark-html";
 const PROJECTS_DIR = path.join(process.cwd(), "content", "projects");
 const PUBLIC_DIR = path.join(process.cwd(), "public");
 
+// How many featured cards the home page shows at most
+const MAX_HOME_PROJECTS = 6;
+
 // Same value next.config.ts uses, empty locally
 export const basePath = process.env.PAGES_BASE_PATH || "";
 
@@ -25,19 +28,22 @@ export type ProjectLink = { label: string; href: string };
 export type ProjectMeta = {
   slug: string;
   title: string;
-  summary: string;      // one line, shown on the card
+  summary: string;      // one line, shown on cards and in the list
   date: string;         // "2026-10" or "Fall 2026 – Spring 2027", shown as written
-  sortDate: string;     // ISO-ish date used only for ordering the grid
+  sortDate: string;     // YYYY-MM-DD, used for ordering and for the year groups
   status?: string;      // e.g. "In progress", "Complete"
   role?: string;        // e.g. "UI Engineer"
+  category?: string;    // e.g. "Course labs", "Personal", "Team project", "Workshop"
   tags: string[];
   cover?: string;       // e.g. "/images/projects/exoskeleton-ui/cover.webp"
-  featured?: boolean;
+  featured: boolean;    // true shows it on the home page grid
   links: ProjectLink[];
   has_page: boolean;    // true when the Markdown file has body text, so a project page gets built
 };
 
 export type Project = ProjectMeta & { html: string };
+
+export type YearGroup = { year: string; projects: ProjectMeta[] };
 
 // gray-matter turns unquoted YAML dates into Date objects, normalize to text
 function asText(value: unknown): string {
@@ -45,6 +51,7 @@ function asText(value: unknown): string {
   return value == null ? "" : String(value);
 }
 
+// Drop a cover path if the image file isn't in public/ yet, so cards show a placeholder instead of a broken image
 function existingCover(value: unknown): string | undefined {
   const cover = value ? asText(value) : "";
   if (!cover) return undefined;
@@ -61,6 +68,7 @@ function toMeta(slug: string, data: Record<string, unknown>, body: string): Proj
     sortDate: asText(data.sortDate) || date,
     status: data.status ? asText(data.status) : undefined,
     role: data.role ? asText(data.role) : undefined,
+    category: data.category ? asText(data.category) : undefined,
     tags: Array.isArray(data.tags) ? data.tags.map(asText) : [],
     cover: existingCover(data.cover),
     featured: Boolean(data.featured),
@@ -81,23 +89,48 @@ function allSlugs(): string[] {
     .map((file) => file.replace(/\.md$/, ""));
 }
 
+// Where a project's card or row should link
+// Its own page if it has body text, otherwise its first external link, otherwise nowhere
+export function projectHref(project: ProjectMeta): { href: string; external: boolean } | null {
+  if (project.has_page) return { href: `/projects/${project.slug}/`, external: false };
+  if (project.links[0]) return { href: project.links[0].href, external: true };
+  return null;
+}
+
 // Only projects with body text get their own page
 export function getProjectSlugs(): string[] {
   return allSlugs().filter((slug) => readProject(slug).content.trim().length > 0);
 }
 
-// Frontmatter only, for the project grid
-// Featured projects first, then newest first
+// Every project, newest first
 export function getAllProjects(): ProjectMeta[] {
   return allSlugs()
     .map((slug) => {
       const { data, content } = readProject(slug);
       return toMeta(slug, data, content);
     })
-    .sort(
-      (a, b) =>
-        Number(b.featured) - Number(a.featured) || b.sortDate.localeCompare(a.sortDate),
-    );
+    .sort((a, b) => b.sortDate.localeCompare(a.sortDate));
+}
+
+// Projects for the home page grid
+// Featured ones if any are marked, otherwise the newest few
+export function getHomeProjects(): ProjectMeta[] {
+  const all_projects = getAllProjects();
+  const featured_projects = all_projects.filter((project) => project.featured);
+  const chosen = featured_projects.length > 0 ? featured_projects : all_projects;
+  return chosen.slice(0, MAX_HOME_PROJECTS);
+}
+
+// Every project grouped by the year in sortDate, newest year first
+export function getProjectsByYear(): YearGroup[] {
+  const groups = new Map<string, ProjectMeta[]>();
+  for (const project of getAllProjects()) {
+    const year = /^\d{4}/.test(project.sortDate) ? project.sortDate.slice(0, 4) : "Other";
+    groups.set(year, [...(groups.get(year) ?? []), project]);
+  }
+  return [...groups.entries()]
+    .sort(([a], [b]) => (a === "Other" ? 1 : b === "Other" ? -1 : b.localeCompare(a)))
+    .map(([year, projects]) => ({ year, projects }));
 }
 
 // Frontmatter plus rendered HTML body, for a single project page
