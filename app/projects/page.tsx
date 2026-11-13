@@ -6,7 +6,7 @@ import { site } from "@/lib/site";
 // All projects page at /projects/, everything from first year on, grouped by year
 
 export const metadata: Metadata = {
-  title: `All projects | ${site.name}`,
+  title: `Projects | ${site.name}`,
   description: `Every project, course lab series, and build by ${site.name}.`,
 };
 
@@ -20,12 +20,10 @@ export default function AllProjectsPage() {
         ← Home
       </Link>
 
-      <h1 className="mt-6 text-2xl font-bold leading-tight md:text-[28px]">All projects</h1>
+      <h1 className="mt-6 text-2xl font-bold leading-tight md:text-[28px]">Projects</h1>
       <p className="mt-2 max-w-[70ch] text-muted">
-        TODO: one line introducing this page, e.g. everything from first-year builds to current
-        work, including course lab series.
+        This page contains all my projects both small and large that I have completed since I became interested in Engineering, including personal projects, coursework projects, business projects, school club projects etc.
       </p>
-
       <ProjectList />
     </main>
   );

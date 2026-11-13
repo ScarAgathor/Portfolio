@@ -1,5 +1,4 @@
 // Site-wide content lives here
-// All the text on the home page is edited in this file
 
 export const site = {
   name: "Edidiong Ekong",
@@ -11,7 +10,6 @@ export const site = {
   resume_path: "/EdidiongEkong_Resume.pdf",
 };
 
-// Section links for the top nav, each href matches a section id in app/page.tsx
 export const nav_links = [
   { label: "Projects", href: "#projects" },
   { label: "About", href: "#about" },
@@ -20,30 +18,28 @@ export const nav_links = [
 ];
 
 // About section
-// Each string is one paragraph
-// photo_path points into public/
 export const about = {
-  photo_path: "/images/me.webp",
+  photo_path: "/images/me.jpg",
   paragraphs: [
-    "TODO: first paragraph about who you are and what you build.",
-    "TODO: second paragraph about what you're looking for or working on now.",
+    "I am a computer engineering student with expereince in electrical engineering. I enjoy working with Embedded systems, VLSI design. In my free time I like to practice Guitar and Blender 3d modeling including 3d printing using CAD with Fusion360. I am currently working on research for machine learning optimization on embedded Systems at the Resilient, Intelligent, and Sustainable Embedded Computing and Networking (RISE) Lab at UT San Antonio under Assistant Professor Chen Pan.",
+    "I am interested in hardware and firmware engineering opportunities as well as UI engineering.",
   ],
 };
 
 // Skills, grouped
-// Add, remove, or rename groups freely, the layout adjusts
 export const skill_groups = [
-  { title: "Embedded", skills: ["TODO", "TODO", "TODO"] },
-  { title: "Hardware", skills: ["TODO", "TODO", "TODO"] },
-  { title: "Software", skills: ["TODO", "TODO", "TODO"] },
+  { title: "Embedded", skills: ["Low Rank Approximation", "Low Power Operation", "TinyML", "UART", "SPI"] },
+  { title: "Hardware", skills: ["Electronic Circuit design/TestingTODO", "PCB Design", "CAD/ECAD"] },
+  { title: "Software", skills: ["Embedded C/C++", "Verilog", "Python", "JavaScript"] },
+  { title: "Tools", skills: ["Code Composer Studio", "Cadence Innovus", "Cadense Virtuoso", "Arduino IDE", "Blender", "Altium Designer", "KiCAD", "Fusion360"]}
 ];
 
 // Resume section text
 export const resume = {
-  blurb: "TODO: one line, e.g. what the resume covers or when it was last updated.",
+  blurb: "This resume covers my most proud projects and interests. Last updated Oct 13, 2026",
 };
 
 // Contact footer text
 export const contact = {
-  blurb: "TODO: one line inviting people to reach out.",
+  blurb: "Reach out to me here.",
 };
