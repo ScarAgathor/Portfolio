@@ -5,8 +5,8 @@ export const site = {
   site_url: "https://scaragathor.github.io/Portfolio/",
   pitch: "Computer engineer: embedded, hardware, and full-stack.",
   github_url: "https://github.com/ScarAgathor",
-  linkedin_url: "https://www.linkedin.com/in/TODO",
-  email: "edidiongdekong@example.com",
+  linkedin_url: "https://www.linkedin.com/in/edidiongdekong",
+  email: "edidiongdekong@gmail.com",
   resume_path: "/EdidiongEkong_Resume.pdf",
 };
 

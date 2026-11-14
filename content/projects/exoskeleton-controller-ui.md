@@ -1,17 +1,17 @@
 ---
-title: "Exoskeleton Controller: Operator Interface"
+title: "ISABEL ECExo Exoskeleton Controller: Operator Interface"
 summary: "Operator GUI and communication link for a lower-limb exoskeleton controller, streaming live telemetry from an STM32 over UART and BLE."
 date: "Fall 2026 – Spring 2027"
 sortDate: "2026-10-31"
 status: "In progress"
 role: "UI Engineer · Senior capstone"
-tags: ["STM32", "ESP32-C3", "UART", "Zephyr", "PySide6", "Qt", "Python", "ESP-IDF"]
-cover: "/images/projects/exoskeleton-ui/cover.webp"
+tags: ["STM32", "ESP32-C3", "Zephyr RTOS", "UART", "BLE", "PySide6", "Qt", "Python", "ESP-IDF"]
+cover: "/images/projects/exoskeleton-controller-ui/cover.webp"
 featured: true
-links: []
-# links:
-#   - label: "GitHub"
-#     href: "https://github.com/ScarAgathor/TODO"
+
+links:
+  - label: "UTSA Tech Symposium Teams"
+    href: "https://klesse.utsa.edu/symposium/"
 ---
 
 ## Problem
@@ -31,7 +31,7 @@ Currently researchers in the lab judge the physical state exoskeleton by eye wit
 
 ## My role
 
-I'm the UI engineer on a four-person team, and I own everything between the
+I'm the UI engineer on a four-person team, and I am in charge everything between the
 controller and the operator:
 
 - **The communication protocol.** I'm writing the comm module on the STM32
@@ -43,7 +43,7 @@ controller and the operator:
   sensor, and joint data, error flags, and diagnostic results, and logs every
   session.
 
-Teammates own the control loop and CAN motor control, the PCB design, and power
+My teammates are in charge of the control loop and CAN motor control, the PCB design, and power
 delivery. 
 
 I also contributed to developing our Verification and Validation Test Plan, decsion matrix and overall design package.
@@ -58,11 +58,11 @@ The controller board uses two microcontrollers with separate jobs:
   the STM32 over UART and forwards them to the laptop.
 
 The design started as a single STM32WB55 handling both control and Bluetooth.
-We decided it would be easier to have the STM32 dedicate more processing power to 
-ensuring the control loop executes timely. Th ESP32 was already poised to be in a good position to handling wirless communication, so we then settled on STM32G474 and the ESP32-C3
+We decided it would be more efficent to have the STM32 dedicate more processing power to 
+ensuring the control loop executes timely. Th ESP32 is already a good chip for handling wirless communication, so we settled on the STM32G474 and the ESP32-C3.
 
-Data flows both ways. Telemetry goes up from the STM32 to the GUI, and the GUI
-sends back only three commands: start, stop, and emergency stop. Emergency stop
+Data flows both ways. Telemetry goes up from the STM32 to the GUI, and the GUI can
+send back only three commands: start, stop, and emergency stop. Emergency stop
 sends an immediate kill rather than the normal step-by-step safe shutdown, so
 the operator always has a fast way out.
 
@@ -71,17 +71,15 @@ Session logging runs continuously on the GUI side.
 
 ## Photos
 
-![System Block Diagram](/images/projects/exoskeleton-ui/block-diagram.png)
+![System Block Diagram](/images/projects/exoskeleton-controller-ui/block-diagram.png)
 *Highlevel Block diagram of the communication system.*
 
-![Operator GUI sketch](/images/projects/exoskeleton-ui/gui-sketch.png)
+![Operator GUI sketch](/images/projects/exoskeleton-controller-ui/gui-sketch.png)
 *Early Figma sketch of the operator dashboard.*
-
-
 
 ## Status and next steps
 
-This is a two-semester senior capstone, currently in the design phase. So far:
+This is a two-semester senior capstone project that is currently in the design phase. So far:
 
 - Finalized the two-MCU architecture with the team
 - Sketched the operator GUI layout in Figma
