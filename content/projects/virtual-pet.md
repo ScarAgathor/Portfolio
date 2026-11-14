@@ -7,7 +7,7 @@ category: "Course project"
 status: "Complete"
 tags: ["C", "PIC16", "ATmega", "SPI", "TFT display", "SD card", "C++"]
 cover: "/images/projects/virtual-pet/cover.webp"
-featured: true
+featured: false
 links: []
 # links:
 #   - label: "GitHub"

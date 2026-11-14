@@ -1,32 +1,26 @@
 ---
 title: "VLSI Design Labs"
-summary: "TODO: one line, e.g. a semester of CMOS design labs, from transistor-level gates to muxes, in Cadence Virtuoso and Verilog."
+summary: "CMOS design labs from transistor-level schematics and layout in Virtuoso to synthesized blocks placed and routed in Innovus."
 date: "Fall 2026"
 sortDate: "2026-12-01"
 category: "Course labs"
 status: "In progress"
-tags: ["Cadence Virtuoso", "Verilog", "CMOS", "Layout", "DRC/LVS"]
+tags: ["Cadence Virtuoso", "Innovus", "Verilog", "CMOS", "Layout", "DRC/LVS"]
 cover: "/images/projects/vlsi-labs/cover.webp"
 featured: false
 links: []
+# links:
+#   - label: "GitHub"
+#     href: "https://github.com/ScarAgathor/TODO"
 ---
 
 ## Overview
 
-TODO: two or three sentences on the course and what the labs built up to.
-Mention the course name and number and what tools you used.
+TODO: two or three sentences on the course (name and number) and what the labs built up to.
 
-## Lab 1: TODO title
+## 2-to-4 Decoder
 
-**Goal:** TODO, one sentence on what the lab asked for
-
-**What I did:** TODO, schematic, layout, simulation, or Verilog module
-
-**Result:** TODO, e.g. passed DRC/LVS, measured delay, area, or what you learned
-
-<!-- ![Lab 1 layout](/images/projects/vlsi-labs/lab1-layout.webp) -->
-
-## Lab 2: TODO title
+**Tools:** Cadence Virtuoso
 
 **Goal:** TODO
 
@@ -34,9 +28,11 @@ Mention the course name and number and what tools you used.
 
 **Result:** TODO
 
-<!-- ![Lab 2 schematic](/images/projects/vlsi-labs/lab2-schematic.webp) -->
+<!-- ![2-to-4 Decoder](/images/projects/vlsi-labs/TODO.webp) -->
 
-## Lab 3: TODO title, e.g. 4:1 multiplexer
+## 4:1 Multiplexer from 2:1 Multiplexers
+
+**Tools:** Cadence Virtuoso
 
 **Goal:** TODO
 
@@ -44,8 +40,87 @@ Mention the course name and number and what tools you used.
 
 **Result:** TODO
 
-<!-- Copy a "## Lab N" block for each additional lab -->
+<!-- ![4:1 Multiplexer from 2:1 Multiplexers](/images/projects/vlsi-labs/TODO.webp) -->
+
+## 64-bit Array Multiplier
+
+**Tools:** Verilog, Innovus
+
+**Goal:** TODO
+
+**What I did:** TODO
+
+**Result:** TODO
+
+<!-- ![64-bit Array Multiplier](/images/projects/vlsi-labs/TODO.webp) -->
+
+## 4-bit Ripple Carry Adder
+
+Tools: Verilog
+
+Goal: TODO
+
+What I did: TODO
+
+Result: TODO
+
+<!-- ![4-bit Ripple Carry Adder](/images/projects/digital-design-labs/TODO.webp) -->
+## 8-bit Carry Lookahead Adder
+
+Tools: Verilog
+
+Goal: TODO
+
+What I did: TODO
+
+Result: TODO
+
+<!-- ![8-bit Carry Lookahead Adder](/images/projects/digital-design-labs/TODO.webp) -->
+4-bit ALU
+
+Tools: Verilog
+
+Goal: TODO
+
+What I did: TODO
+
+Result: TODO
+
+<!-- ![4-bit ALU](/images/projects/digital-design-labs/TODO.webp) -->
+64-byte Synchronous Memory (byte addressable)
+
+Tools: Verilog
+
+Goal: TODO
+
+What I did: TODO
+
+Result: TODO
+
+<!-- ![64-byte Synchronous Memory (byte addressable)](/images/projects/digital-design-labs/TODO.webp) -->
+Excess-3 Code Converter
+
+Tools: Verilog
+
+Goal: TODO
+
+What I did: TODO
+
+Result: TODO
+
+<!-- ![Excess-3 Code Converter](/images/projects/digital-design-labs/TODO.webp) -->
+Traffic Light Controller
+
+Tools: Verilog
+
+Goal: TODO
+
+What I did: TODO
+
+Result: TODO
+
+<!-- ![Traffic Light Controller](/images/projects/digital-design-labs/TODO.webp) -->
 
 ## Takeaways
 
-TODO: what this series taught you overall, and how it fed into the VLSI final project.
+TODO: what this series taught you and how it fed into the 4x4 systolic array final project.
