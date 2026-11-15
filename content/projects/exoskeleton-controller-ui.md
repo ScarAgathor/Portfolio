@@ -2,7 +2,7 @@
 title: "ISABEL ECExo Exoskeleton Controller: Operator Interface"
 summary: "Operator GUI and communication link for a lower-limb exoskeleton controller, streaming live telemetry from an STM32 over UART and BLE."
 date: "Fall 2026 – Spring 2027"
-sortDate: "2026-10-31"
+sortDate: "2026-08-24"
 status: "In progress"
 role: "UI Engineer · Senior capstone"
 tags: ["STM32", "ESP32-C3", "Zephyr RTOS", "UART", "BLE", "PySide6", "Qt", "Python", "ESP-IDF"]
