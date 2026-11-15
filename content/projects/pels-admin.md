@@ -6,7 +6,7 @@ sortDate: "2025-09-01"
 category: "Student Org"
 status: "Complete"
 tags: ["Supabase", "API", "Edge Functions", "JavaScript", "TypeScript"]
-cover: "/images/projects/pels-admin/cover.webp"
+cover: "/images/projects/pels-admin/cover.png"
 links: []
 
 ---
